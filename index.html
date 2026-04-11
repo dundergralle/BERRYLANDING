@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#ffd6e0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>DITT NAMN HÄR</title>
@@ -13,7 +13,7 @@
   body {
     min-height: 100%;
     min-height: 100dvh;
-    background: #fff;
+    background: #ffd6e0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     display: flex;
     flex-direction: column;
@@ -26,15 +26,39 @@
     padding-right: max(1.5rem, env(safe-area-inset-right));
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  .berry {
+    position: fixed;
+    font-size: 1.4rem;
+    pointer-events: none;
+    animation: float linear infinite;
+    opacity: 0.75;
+    z-index: 0;
+    user-select: none;
+  }
+  @keyframes float {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    5%   { opacity: 0.55; }
+    95%  { opacity: 0.55; }
+    100% { transform: translateY(-12vh) rotate(360deg); opacity: 0; }
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; }
   h1 { font-size: 1.5rem; font-weight: 600; color: #111; margin-bottom: 0.35rem; letter-spacing: -0.01em; }
   .tagline { font-size: 0.9rem; color: #888; margin-bottom: 0.75rem; text-align: center; line-height: 1.4; }
-  .location-pill { display: inline-flex; align-items: center; gap: 6px; background: #f4f4f4; border-radius: 20px; padding: 6px 14px; font-size: 0.78rem; color: #555; margin-bottom: 1.75rem; min-height: 32px; }
+  .location-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.65); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: 20px; padding: 6px 14px; font-size: 0.78rem; color: #555; margin-bottom: 1.75rem; min-height: 32px; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0; animation: pulse 2s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   .buttons { display: flex; flex-direction: column; gap: 0.65rem; width: 100%; max-width: 340px; }
-  .btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 0 1rem; border-radius: 50px; background: #7c3aed; color: #fff; font-size: 1rem; font-weight: 500; text-align: center; text-decoration: none; border: none; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; transition: opacity 0.1s; }
+  .btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 0 1rem; border-radius: 50px; background: #e05577; color: #fff; font-size: 1rem; font-weight: 500; text-align: center; text-decoration: none; border: none; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; transition: opacity 0.1s; }
   .btn:active { opacity: 0.75; }
   @media (hover: hover) { .btn:hover { opacity: 0.88; } }
 </style>
@@ -47,20 +71,38 @@ if (window.location.pathname === '/link') {
 }
 </script>
 
-<img class="avatar" src="YOUR_PROFILE_IMAGE_URL_HERE" alt="Profile" onerror="this.style.background='#e5e7eb';this.removeAttribute('src')">
+<script>
+(function() {
+  var count = 40;
+  for (var i = 0; i < count; i++) {
+    (function(i) {
+      var el = document.createElement('span');
+      el.className = 'berry';
+      el.textContent = '🍓';
+      var left = Math.random() * 100;
+      var duration = 8 + Math.random() * 14;
+      var delay = -(Math.random() * duration);
+      var size = 1.1 + Math.random() * 1.6;
+      el.style.cssText = 'left:' + left + 'vw;animation-duration:' + duration + 's;animation-delay:' + delay + 's;font-size:' + size + 'rem;';
+      document.body.appendChild(el);
+    })(i);
+  }
+})();
+</script>
 
-<h1>DITT NAMN HÄR</h1>
-<p class="tagline">DIN BESKRIVNING HÄR</p>
-
-<div class="location-pill">
-  <span class="dot"></span>
-  <span id="loc-text">5 minutes ago in: ...</span>
-</div>
-
-<div class="buttons">
-  <a class="btn" href="/link" target="_blank">Knapp 1</a>
-  <a class="btn" href="YOUR_URL_2_HERE" target="_blank">Knapp 2</a>
-  <a class="btn" href="YOUR_URL_3_HERE" target="_blank">Knapp 3</a>
+<div class="content">
+  <img class="avatar" src="berryprofil.jpg" alt="Profile" onerror="this.style.background='#e5e7eb';this.removeAttribute('src')">
+  <h1>BerryBusig</h1>
+  <p class="tagline">Alla mina plattformar</p>
+  <div class="location-pill">
+    <span class="dot"></span>
+    <span id="loc-text">5 minutes ago in: ...</span>
+  </div>
+  <div class="buttons">
+    <a class="btn" href="/link" target="_blank">Se mera av mig</a>
+    <a class="btn" href="YOUR_URL_2_HERE" target="_blank">Insta</a>
+    <a class="btn" href="YOUR_URL_3_HERE" target="_blank">Twitter</a>
+  </div>
 </div>
 
 <script>
