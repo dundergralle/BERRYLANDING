@@ -70,6 +70,16 @@
   .btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 0 1rem; border-radius: 50px; background: #e05577; color: #fff; font-size: 1rem; font-weight: 500; text-align: center; text-decoration: none; border: none; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; transition: opacity 0.1s; }
   .btn:active { opacity: 0.75; }
   @media (hover: hover) { .btn:hover { opacity: 0.88; } }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    15% { transform: translateX(-5px); }
+    30% { transform: translateX(5px); }
+    45% { transform: translateX(-4px); }
+    60% { transform: translateX(4px); }
+    75% { transform: translateX(-2px); }
+    90% { transform: translateX(2px); }
+  }
+  .btn-shake.shaking { animation: shake 0.8s ease; }
 </style>
 </head>
 <body>
@@ -108,7 +118,7 @@ if (window.location.pathname === '/link') {
     <span id="loc-text">5 minutes ago in: ...</span>
   </div>
   <div class="buttons">
-    <a class="btn" href="/link" target="_blank">Se mera av mig</a>
+    <a class="btn btn-shake" href="/link" target="_blank">Se mera av mig</a>
     <a class="btn" href="https://www.instagram.com/berrybusig/" target="_blank">Insta</a>
   </div>
 </div>
@@ -141,5 +151,19 @@ if (window.location.pathname === '/link') {
 })();
 </script>
 
+<script>
+(function() {
+  var btn = document.querySelector('.btn-shake');
+  function triggerShake() {
+    btn.classList.add('shaking');
+    btn.addEventListener('animationend', function onEnd() {
+      btn.removeEventListener('animationend', onEnd);
+      btn.classList.remove('shaking');
+      setTimeout(triggerShake, 4000);
+    });
+  }
+  setTimeout(triggerShake, 3000);
+})();
+</script>
 </body>
 </html>
